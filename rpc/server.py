@@ -11,9 +11,10 @@ class ClientHandler(Thread):
 
     def run(self):
         try:
-            data = json.loads(self.__read_all().decode())
-            result = self.routine(*data['args'])
-            self.socket.send(json.dumps({'result': result}).encode())
+            while True:
+                data = json.loads(self.__read_all().decode())
+                result = self.routine(*data['args'])
+                self.socket.send(json.dumps({'result': result}).encode())
         except:
             self.socket.send(json.dumps({'result': None}).encode())
     
